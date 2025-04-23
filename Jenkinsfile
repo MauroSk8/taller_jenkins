@@ -10,20 +10,20 @@ pipeline {
   stages {
     stage('Check Python Version') {
       steps {
-        bat '"C:\\Users\\sebas\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" --version'
+        bat '"C:\\Users\\sopor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" --version'
       }
     }
 
     stage('Clonar repositorio') {
       steps {
-        git branch: 'main', url: 'https://github.com/IRenly/clase10-TalleCI-CD'
+        git branch: 'main', url: 'https://github.com/MauroSk8/taller_jenkins.git'
       }
     }
 
     stage('Instalar dependencias') {
       steps {
         bat """
-          "C:\\Users\\sebas\\AppData\\Local\\Programs\\Python\\Python313\\python.exe" -m venv %VENV%
+          "C:\\Users\\sopor\\AppData\\Local\\Programs\\Python\\Python312\\python.exe" -m venv %VENV%
           call %VENV%\\Scripts\\activate.bat
           "%VENV%\\Scripts\\pip.exe" install --upgrade pip
           "%VENV%\\Scripts\\pip.exe" install -r requirements.txt
@@ -43,7 +43,7 @@ pipeline {
     stage('Construir imagen Docker') {
       steps {
         script {
-          dockerImage = docker.build("irenly/clase10-talleci-cd")
+          dockerImage = docker.build("whoami2001/tallerjenkins")
         }
       }
     }
@@ -61,7 +61,7 @@ pipeline {
     stage('Push to DockerHub') {
       steps {
         script {
-          docker.image('irenly/clase10-talleci-cd').push()
+          docker.image('whoami2001/tallerjenkins').push()
         }
       }
     }
